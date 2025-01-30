@@ -145,6 +145,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+
+    #define ID_BUTTON 1 //defining a unique ID for the button
+    case WM_CREATE:
+    {
+        CreateWindow(
+            _T("BUTTON"), _T("Click Me!"),
+            WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            290, 150, 100, 30, //position of the button
+            hWnd, (HMENU)ID_BUTTON, hInst, NULL);
+        break;
+    }
+    case WM_COMMAND:
+    {
+        if (LOWORD(wParam) == ID_BUTTON)
+        {
+            MessageBox(hWnd, _T("Button Clicked!"), _T("Info"), MB_OK);
+        }
+        break;
+    }
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
         break;
