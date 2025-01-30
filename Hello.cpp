@@ -12,7 +12,7 @@
 static TCHAR szWindowClass[] = _T("DesktopApp");
 
 // The string that appears in the application's title bar.
-static TCHAR szTitle[] = _T("Windows Desktop Guided Tour Application");
+static TCHAR szTitle[] = _T("Jakes window application");
 
 // Stored instance handle for use in Win32 API calls such as FindResource
 HINSTANCE hInst;
@@ -20,6 +20,9 @@ HINSTANCE hInst;
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
+//Just like how every C++ application must have a main function,
+//Every windows desktop application must have a WinMain function
+//It's better to display the parameters like below, so you can see each of them clearly
 int WINAPI WinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -27,6 +30,9 @@ int WINAPI WinMain(
     _In_ int       nCmdShow
 )
 {
+    //This captures some basic info about your main window.
+    //eg application icon, background colour of the window, name to display in title bar etc.
+    //Most importantly, this contains a function pointer to the WndProc that handles the messages that windows send to your app
     WNDCLASSEX wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -45,8 +51,8 @@ int WINAPI WinMain(
     if (!RegisterClassEx(&wcex))
     {
         MessageBox(NULL,
-            _T("Call to RegisterClassEx failed!"),
-            _T("Windows Desktop Guided Tour"),
+            _T("Call to RegisterClassEx failed! Somethings gone wrong bud!"),
+            _T("Jakes window application"),
             NULL);
 
         return 1;
@@ -72,7 +78,7 @@ int WINAPI WinMain(
         szTitle,
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
-        500, 100,
+        750, 250, //When you run the code, this is the size of the window application that is opened
         NULL,
         NULL,
         hInstance,
@@ -92,8 +98,7 @@ int WINAPI WinMain(
     // The parameters to ShowWindow explained:
     // hWnd: the value returned from CreateWindow
     // nCmdShow: the fourth parameter from WinMain
-    ShowWindow(hWnd,
-        nCmdShow);
+    ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
     // Main message loop:
@@ -113,11 +118,14 @@ int WINAPI WinMain(
 //
 //  WM_PAINT    - Paint the main window
 //  WM_DESTROY  - post a quit message and return
+//Window-procedure function
+//This handles messages that the application receives from Windows when events occur
+//You only handle the events that are relevant for your application
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
     HDC hdc;
-    TCHAR greeting[] = _T("Hello, Windows desktop!");
+    TCHAR greeting[] = _T("Hello, my name is Jake, thank you for using my application!");
 
     switch (message)
     {
@@ -125,10 +133,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         hdc = BeginPaint(hWnd, &ps);
 
         // Here your application is laid out.
-        // For this introduction, we just print out "Hello, Windows desktop!"
+        // For this introduction, we just print out "Hello, my name is Jake, thank you for using my application!"
         // in the top left corner.
         TextOut(hdc,
-            5, 5,
+            150, 100, //this is the position where your text is shown on the window
             greeting, _tcslen(greeting));
         // End application-specific layout section.
 
